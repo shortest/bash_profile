@@ -83,7 +83,11 @@ function _bash_prompt_get_host_user_path() {
     local USER_COLOR=$(_bash_prompt_get_user_color)
 
     local PROMPT="${USER_COLOR}[${USERNAME}]$(tput sgr0) "
-    PROMPT+="$(tput blink)$(tput setab 1)${HOSTNAME}$(tput sgr0) "
+    if [[ $(whoami) != "vagrant" && $(whoami) != "root" ]]; then
+        PROMPT+="$(tput blink)$(tput setab 1)${HOSTNAME}$(tput sgr0) "
+    else
+        PROMPT+="$(tput setab 3)$(tput setaf 0)${HOSTNAME}$(tput sgr0) "
+    fi
     PROMPT+="in $(tput setaf 6)${CWD}$(tput sgr0)"
 
     echo -e $PROMPT
