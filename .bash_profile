@@ -56,7 +56,7 @@ function _bash_prompt_get_git_state() {
 }
 
 function _bash_prompt_get_user_color() {
-    if [[ `whoami` == "root" ]]; then
+    if [[ $(whoami) == "root" ]]; then
         local user_color=$(tput setaf 1)
     else
         local user_color=$(tput setaf 5)
@@ -115,7 +115,7 @@ function _bash_prompt_command() {
 }
 
 function vagrant_gitconfig() {
-    if [[ `whoami` != "vagrant" ]]; then
+    if [[ $(whoami) != "vagrant" ]]; then
         return
     fi
 
@@ -124,15 +124,19 @@ function vagrant_gitconfig() {
     if [[ -z $(git config --global user.name) ]]; then
         clear
         nameAndSurname=$(dialog --title ".gitconfig settings" --inputbox "Podaj imię i nazwisko" 10 100 2>&1 1>&3)
+        if [[ $? == 0 ]]; then
+            git config --global user.name "$nameAndSurname"
+        fi
         clear
-        git config --global user.name "$nameAndSurname"
     fi
 
     if [[ -z $(git config --global user.email) ]]; then
         clear
         email=$(dialog --title ".gitconfig settings" --inputbox "Podaj e-mail" 10 100 2>&1 1>&3)
+        if [[ $? == 0 ]]; then
+            git config --global user.email "$email"
+        fi
         clear
-        git config --global user.email "$email"
     fi
 }
 
