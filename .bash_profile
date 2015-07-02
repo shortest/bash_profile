@@ -36,6 +36,10 @@ function set_aliases() {
             . /etc/bash_completion
         fi
     fi
+
+    if [[ -z $TERM ]]; then
+        export TERM=dumb
+    fi
 }
 
 function _bash_prompt_get_git_state() {
