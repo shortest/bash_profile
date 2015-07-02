@@ -106,6 +106,8 @@ function _bash_prompt_command() {
     if [[ $(whoami) != "vagrant" && $(whoami) != "root" ]]; then
         local GIT_STATE=$(_bash_prompt_get_git_state)
         local GIT_STATE_SIZE=$(echo -e ${GIT_STATE} | perl -pe 's/\e\[?.*?[\@-~]//g' | awk ' { print length } ')
+    else
+        local GIT_STATE_SIZE=0
     fi
 
     local VIRTUALENV_PROMPT=$(_bash_prompt_get_virtualenv)
