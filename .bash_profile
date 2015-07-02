@@ -103,8 +103,10 @@ function _bash_prompt_command() {
     local PROMPT=$(_bash_prompt_get_host_user_path)
     local PROMPT_SIZE=$(echo -e ${PROMPT} | perl -pe 's/\e\[?.*?[\@-~]//g' | wc -c)
 
-    local GIT_STATE=$(_bash_prompt_get_git_state)
-    local GIT_STATE_SIZE=$(echo -e ${GIT_STATE} | perl -pe 's/\e\[?.*?[\@-~]//g' | awk ' { print length } ')
+    if [[ $(whoami) != "vagrant" && $(whoami) != "root" ]]; then
+        local GIT_STATE=$(_bash_prompt_get_git_state)
+        local GIT_STATE_SIZE=$(echo -e ${GIT_STATE} | perl -pe 's/\e\[?.*?[\@-~]//g' | awk ' { print length } ')
+    fi
 
     local VIRTUALENV_PROMPT=$(_bash_prompt_get_virtualenv)
     local VIRTUALENV_PROMPT_SIZE=$(echo ${VIRTUALENV_PROMPT} | perl -pe 's/\e\[?.*?[\@-~]//g' | awk ' { print length } ')
@@ -118,7 +120,10 @@ function _bash_prompt_command() {
 
     PS1=${PROMPT}
     PS1+="${SPACING}"
-    PS1+=${VIRTUALENV_PROMPT}${GIT_STATE}
+    PS1+=${VIRTUALENV_PROMPT}
+    if [[ $(whoami) != "vagrant" && $(whoami) != "root" ]]; then
+        PS1+=${GIT_STATE}
+    fi
     PS1+="\n→ "
 }
 
