@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ -z $TERM ]]; then
+    export TERM=dumb
+fi
+
 function set_locales() {
     if [[ -z "$LANG" ]]; then
         export LANG='en_US.UTF-8'
@@ -35,10 +39,6 @@ function set_aliases() {
         elif [ -f /etc/bash_completion ]; then
             . /etc/bash_completion
         fi
-    fi
-
-    if [[ -z $TERM ]]; then
-        export TERM=dumb
     fi
 }
 
