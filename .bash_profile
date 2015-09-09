@@ -155,8 +155,15 @@ function vagrant_gitconfig() {
     fi
 }
 
+function box_update_checker() {
+    if [[ -x /usr/local/bin/box_version_checker ]]; then
+        box_version_checker
+    fi
+}
+
 vagrant_gitconfig
 set_locales
 set_aliases
+box_update_checker
 
 PROMPT_COMMAND=_bash_prompt_command
